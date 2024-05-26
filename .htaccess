@@ -1,0 +1,29 @@
+#ErrorDocument 404 /404.php
+AddDefaultCharset UTF-8
+#Header unset ETag
+FileETag None
+
+Options +FollowSymLinks -MultiViews
+# Exclude existing files or directories from rewrite rules
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Turn mod_rewrite on
+RewriteEngine On
+RewriteBase /
+
+
+
+# Redirect to pretty URL
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+articledetail\.html\?id=([^\s&]+) [NC]
+RewriteRule ^ articledetail/%1? [R=301,L]
+
+RewriteCond %{REQUEST_URI} !^/upload/ [NC]
+RewriteRule ^(.*)\s(.*)$ /$1-$2 [R=301,L]
+
+#RewriteRule ^(.*)\s(.*)$ /$1-$2 [R=301,L]
+
+# Rewrite pretty URL to actual URL
+#RewriteRule ^articledetail/([^/]+)/?$ articledetail.html?id=$1 [L,QSA]
+RewriteRule ^articledetail/([^/]+)/([^/]+)/?$ articledetail.html?id=$1&title=$2 [L,QSA]
+
+
